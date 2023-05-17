@@ -1,0 +1,1 @@
+// functions needed createUser, updateUser, getAllusers, getOneUser, deleteuser, addFriend, deleteFriend
