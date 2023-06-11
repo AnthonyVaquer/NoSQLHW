@@ -63,17 +63,17 @@ module.exports = {
         return res.status(404).json({ message: "User id does not exist" });
       }
 
-      // const friends = await Friends.findOneAndUpdate(
-      //   { user: req.params.userId },
-      //   { $pull: { friends: req.params.userId } },
-      //   { new: true }
-      // );
+      const friends = await Friends.findOneAndUpdate(
+        { user: req.params.userId },
+        { $pull: { friends: req.params.userId } },
+        { new: true }
+      );
 
-      // if (!course) {
-      //   return res.status(404).json({
-      //     message: 'User deleted',
-      //   });
-      // }
+      if (!friends) {
+        return res.status(404).json({
+          message: 'User deleted',
+        });
+      }
 
       res.json({ message: "User successfully deleted" });
     } catch (err) {
