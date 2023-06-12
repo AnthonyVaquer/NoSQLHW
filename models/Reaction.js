@@ -18,10 +18,11 @@ const reactionSchema = new Schema(
         type: String,
         required: true,
       },
+      // time stamp getter
       createdAt: {
           type: Date, 
           default: Date.now,
-          get: (date)=> formatTime(date) // getter
+          get: (date)=> formatTime(date)
          },
   
     },

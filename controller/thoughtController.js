@@ -2,7 +2,7 @@
 const Thought = require("../models/Thought");
 
 module.exports = {
-  // Get all thoughts
+  // gets all thoughts
   async getThoughts(req, res) {
     try {
       const thoughts = await Thought.find();
@@ -11,7 +11,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // Get single thought
+  // retrieves a single thought id
   async getSingleThought(req, res) {
     try {
       const thought = await Thought.findOne({
@@ -19,7 +19,7 @@ module.exports = {
       }).select("-__v");
 
       if (!thought) {
-        return res.status(404).json({ message: "No thought with that ID" });
+        return res.status(404).json({ message: "Thought id does not exist." });
       }
 
       res.json(thought);
@@ -27,6 +27,8 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
+  // add a reaction to a thought
   addReaction({ params, body }, res) {
     Thought.findOneAndUpdate(
       { _id: params.thoughtId },
@@ -35,7 +37,7 @@ module.exports = {
     )
       .then((thought) => {
         if (!thought) {
-          res.status(404).json({ message: "No thoguth with this ID" });
+          res.status(404).json({ message: "Thoguth id does not exist." });
           return;
         }
         res.status(200).json(thought);
@@ -44,6 +46,8 @@ module.exports = {
         res.status(500).json({ message: err });
       });
   },
+
+  // deletes reactions
   deleteReaction({ params }, res) {
     Thought.findOneAndUpdate(
       { _id: params.thoughtId },
@@ -57,7 +61,7 @@ module.exports = {
         res.status(500).json({ message: err });
       });
   },
-  // Create a thought
+  // create a thought
   createThought({ body }, res) {
     Thought.create(body)
       .then((thought) => {
@@ -69,7 +73,7 @@ module.exports = {
       })
       .then((user) => {
         if (!user) {
-          res.status(404).json({ message: "No User with this ID" });
+          res.status(404).json({ message: "User id does not exist." });
           return;
         }
         res.json(user);
@@ -77,12 +81,12 @@ module.exports = {
       .catch((err) => res.json(err));
   },
 
-  // Delete a thought
+  // delete a thought
   deleteThought({ params, query }, res) {
     Thought.findOneAndDelete({ _id: params.thoughtId })
       .then((thought) => {
         if (!thought) {
-          res.status(404).json({ message: "No thoughts found with that id!" });
+          res.status(404).json({ message: "Thought id does not exist." });
           return;
         }
         return User.findOneAndUpdate(
@@ -93,7 +97,7 @@ module.exports = {
       })
       .then((user) => {
         if (!user) {
-          res.status(404).json({ message: "No User found with this id!" });
+          res.status(404).json({ message: "User id does not exist." });
           return;
         }
         res.json(user);
@@ -101,7 +105,7 @@ module.exports = {
       .catch((err) => res.json(err));
   },
 
-  // Update a thought
+  // update a thought
   async updateThought(req, res) {
     try {
       const thought = await Thought.findOneAndUpdate(
@@ -111,7 +115,7 @@ module.exports = {
       );
 
       if (!thought) {
-        return res.status(404).json({ message: "No thought with this id!" });
+        return res.status(404).json({ message: "Thought id does not exist." });
       }
 
       res.json(thought);

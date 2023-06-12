@@ -10,10 +10,11 @@ const thoughtSchema = new Schema(
       required: true,
       max_length: 280,
     },
+    // time stamp getter
     createdAt: {
         type: Date, 
         default: Date.now,
-        get: (date)=> formatTime(date) // getter
+        get: (date)=> formatTime(date) 
        },
     username: {
         type: String,
@@ -30,7 +31,7 @@ const thoughtSchema = new Schema(
   }
 );
 
-// create your virtual here
+// reaction count virtual
 thoughtSchema.virtual('reactionCount').get(function (){
     return this.reactions.length
 })

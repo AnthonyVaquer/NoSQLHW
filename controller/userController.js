@@ -3,8 +3,10 @@
 const User = require("../models/User");
 
 
-// GET routes
+
 module.exports = {
+
+  // get all users
   async getUsers(req, res) {
     try {
       const users = await User.find();
@@ -13,6 +15,8 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
+  // retrieves a single user by id
   async getSingleUser(req, res) {
     try {
       const user = await User.findOne({ _id: req.params.userId }).select(
@@ -29,7 +33,7 @@ module.exports = {
     }
   },
 
-  // Create a new user
+  // create a new user
   async createUser(req, res) {
     try {
       const dbUserData = await User.create(req.body);
@@ -39,7 +43,7 @@ module.exports = {
     }
   },
 
-  // Update user 
+  // update user 
   updateUser(req, res) {
     User.findByIdAndUpdate(
       { _id: req.params.userId },
@@ -54,7 +58,7 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 
-  // Delete a user and remove them from the friend's list
+  // delete a user and remove them from the friend's list
   async deleteUser(req, res) {
     try {
       const user = await User.findOneAndRemove({ _id: req.params.userId });
